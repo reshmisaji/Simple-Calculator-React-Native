@@ -1,9 +1,9 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 12944,
-  "expoServerNgrokUrl": "https://nq-t23.dream-catcher-girl.firstnativeapp.exp.direct",
-  "packagerNgrokUrl": "https://packager.nq-t23.dream-catcher-girl.firstnativeapp.exp.direct",
-  "ngrokPid": 12956
+  "expoServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null
 }

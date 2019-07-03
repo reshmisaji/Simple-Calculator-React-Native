@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Button } from "react-native-elements";
 
-
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -22,8 +21,9 @@ export default class App extends Component {
 
   showSum() {
     try {
-      const sum = eval(this.state.expression);
-      this.setState({ sum: sum, expression: sum });
+      const sum = Math.round(eval(this.state.expression) * 1e12) / 1e12;
+      if (sum == Infinity || isNaN(sum)) alert("Cannot divide by zero");
+      else this.setState({ sum: sum, expression: sum });
     } catch (e) {}
   }
 
@@ -52,61 +52,55 @@ export default class App extends Component {
         <View style={styles.numbers}>
           <View style={styles.row}>
             <Button
-              style={styles.number}
-              titleStyle={styles.title}
+              buttonStyle={styles.clearButton}
+              titleStyle={styles.otherTitle}
               type="clear"
-              title="C"
+              title="Clear"
               onPress={this.clearScreen}
             />
             <Button
-              style={styles.number}
               title="%"
-              titleStyle={styles.title}
+              buttonStyle={styles.otherButtons}
+              titleStyle={styles.otherTitle}
               type="clear"
               onPress={this.updateState.bind(this, "%")}
             />
+
             <Button
-              style={styles.number}
               title="/"
+              buttonStyle={styles.operators}
               titleStyle={styles.title}
               type="clear"
               onPress={this.updateState.bind(this, "/")}
-            />
-            <Button
-              style={styles.number}
-              title="D"
-              titleStyle={styles.title}
-              type="clear"
-              onPress={this.deleteChar}
             />
           </View>
 
           <View style={styles.row}>
             <Button
-              style={styles.number}
-              titleStyle={styles.title}
+              buttonStyle={styles.number}
+              titleStyle={styles.numberTitle}
               type="clear"
               title="1"
               size={48}
               onPress={this.updateState.bind(this, 1)}
             />
             <Button
-              style={styles.number}
               title="2"
-              titleStyle={styles.title}
+              buttonStyle={styles.number}
+              titleStyle={styles.numberTitle}
               type="clear"
               onPress={this.updateState.bind(this, 2)}
             />
             <Button
-              style={styles.number}
               title="3"
-              titleStyle={styles.title}
+              buttonStyle={styles.number}
+              titleStyle={styles.numberTitle}
               type="clear"
               onPress={this.updateState.bind(this, 3)}
             />
             <Button
-              style={styles.number}
               title="+"
+              buttonStyle={styles.operators}
               titleStyle={styles.title}
               type="clear"
               onPress={this.updateState.bind(this, "+")}
@@ -115,28 +109,28 @@ export default class App extends Component {
 
           <View style={styles.row}>
             <Button
-              style={styles.number}
               title="4"
-              titleStyle={styles.title}
+              buttonStyle={styles.number}
+              titleStyle={styles.numberTitle}
               type="clear"
               onPress={this.updateState.bind(this, 4)}
             />
             <Button
-              style={styles.number}
-              titleStyle={styles.title}
+              buttonStyle={styles.number}
+              titleStyle={styles.numberTitle}
               type="clear"
               title="5"
               onPress={this.updateState.bind(this, 5)}
             />
             <Button
-              style={styles.number}
-              titleStyle={styles.title}
+              buttonStyle={styles.number}
+              titleStyle={styles.numberTitle}
               type="clear"
               title="6"
               onPress={this.updateState.bind(this, 6)}
             />
             <Button
-              style={styles.number}
+              buttonStyle={styles.operators}
               titleStyle={styles.title}
               type="clear"
               title="-"
@@ -146,28 +140,28 @@ export default class App extends Component {
 
           <View style={styles.row}>
             <Button
-              style={styles.number}
-              titleStyle={styles.title}
+              buttonStyle={styles.number}
+              titleStyle={styles.numberTitle}
               type="clear"
               title="7"
               onPress={this.updateState.bind(this, 7)}
             />
             <Button
-              style={styles.number}
-              titleStyle={styles.title}
+              buttonStyle={styles.number}
+              titleStyle={styles.numberTitle}
               type="clear"
               title="8"
               onPress={this.updateState.bind(this, 8)}
             />
             <Button
-              style={styles.number}
-              titleStyle={styles.title}
+              buttonStyle={styles.number}
+              titleStyle={styles.numberTitle}
               type="clear"
               title="9"
               onPress={this.updateState.bind(this, 9)}
             />
             <Button
-              style={styles.number}
+              buttonStyle={styles.operators}
               titleStyle={styles.title}
               type="clear"
               title="*"
@@ -177,28 +171,28 @@ export default class App extends Component {
 
           <View style={styles.row}>
             <Button
-              style={styles.number}
-              titleStyle={styles.title}
+              title="D"
+              buttonStyle={styles.otherButtons}
+              titleStyle={styles.otherTitle}
               type="clear"
-              title="X"
-              onPress={this.closeCalculator}
+              onPress={this.deleteChar}
             />
             <Button
-              style={styles.number}
-              titleStyle={styles.title}
+              buttonStyle={styles.number}
+              titleStyle={styles.numberTitle}
               type="clear"
               title="0"
               onPress={this.updateState.bind(this, 0)}
             />
             <Button
-              style={styles.number}
+              buttonStyle={styles.number}
               titleStyle={styles.title}
               type="clear"
               title="."
               onPress={this.updateState.bind(this, ".")}
             />
             <Button
-              style={styles.number}
+              buttonStyle={styles.operators}
               titleStyle={styles.title}
               type="clear"
               title="="
@@ -224,16 +218,13 @@ const styles = StyleSheet.create({
   },
   screen: {
     width: "90%",
-    height: "20%",
-    backgroundColor: "white",
-    borderRadius: 10,
+    height: "30%",
     alignItems: "center",
-    justifyContent: "space-evenly"
+    justifyContent: "space-around"
   },
   numbers: {
     width: "90%",
-    height: "70%",
-    backgroundColor: "gray",
+    height: "60%",
     borderRadius: 10
   },
   row: {
@@ -242,21 +233,50 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-around"
+    justifyContent: "space-evenly"
   },
-  number: {
-    borderRadius: 10
+  numberTitle: {
+    fontSize: 25,
+    color: "white"
   },
   title: {
-    fontSize: 20,
+    fontSize: 25,
+    color: "white"
+  },
+  otherTitle: {
+    fontSize: 25,
     color: "black"
   },
   expression: {
     color: "gray",
-    fontSize: 20
+    fontSize: 25
   },
   sum: {
-    color: "black",
-    fontSize: 25
+    color: "white",
+    fontSize: 35
+  },
+  number: {
+    height: 70,
+    width: 70,
+    backgroundColor: "rgb(51,51,51)",
+    borderRadius: 50
+  },
+  operators: {
+    height: 70,
+    width: 70,
+    backgroundColor: "rgb(240,154,55)",
+    borderRadius: 50
+  },
+  otherButtons: {
+    height: 70,
+    width: 70,
+    backgroundColor: "rgb(118,118,118)",
+    borderRadius: 50
+  },
+  clearButton: {
+    height: 70,
+    width: 140,
+    backgroundColor: "rgb(118,118,118)",
+    borderRadius: 50
   }
 });
