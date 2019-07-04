@@ -5,7 +5,7 @@ import { Button } from "react-native-elements";
 export default class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { expression: "0", sum: "0" };
+    this.state = { expression: "", sum: "0" };
     this.updateState = this.updateState.bind(this);
     this.render = this.render.bind(this);
     this.showSum = this.showSum.bind(this);
@@ -22,7 +22,7 @@ export default class App extends Component {
   showSum() {
     try {
       const sum = Math.round(eval(this.state.expression) * 1e12) / 1e12;
-      if (sum == Infinity || isNaN(sum)) alert("Cannot divide by zero");
+      if (sum === Infinity || isNaN(sum)) alert("Cannot divide by zero");
       else this.setState({ sum: sum, expression: sum });
     } catch (e) {}
   }
@@ -34,7 +34,7 @@ export default class App extends Component {
   }
 
   clearScreen() {
-    this.setState({ expression: "", sum: "" });
+    this.setState({ expression: "", sum: "0" });
   }
 
   closeCalculator() {
@@ -248,12 +248,12 @@ const styles = StyleSheet.create({
     color: "black"
   },
   expression: {
-    color: "gray",
-    fontSize: 25
+    color: "rgb(201,203,204)",
+    fontSize: 30
   },
   sum: {
     color: "white",
-    fontSize: 35
+    fontSize: 40
   },
   number: {
     height: 70,
